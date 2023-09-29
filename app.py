@@ -5,8 +5,16 @@ import numpy as np
 import os
 import cv2,imutils
 
+st.write('R204452G Tungamiraishe Mukwena')
 
-# Allow user to upload video
+# Frames path
+FRAMES = join(dirname(realpath(__file__)), "frames")
+
+def load_image(image_file):
+	img = Image.open(image_file)
+	return img
+
+#  upload video
 video = st.file_uploader(label="upload video", type="mp4", key="video_upload_file")
 
 # Continue only if video is uploaded successfully
@@ -24,17 +32,14 @@ if(video is not None):
     # save video
     with open(video.name, "wb") as f:
         f.write(video.getbuffer())
-    # Notify user
+    
     st.success("Video saved")
 
-    # Show video on ui 
     video_file = open(file_details['filename'], 'rb')
     video_bytes = video_file.read()
     st.video(video_bytes)
 
-    # Create frames for the video and save 
     def create_frames():
-        st.write('Creating frames')
 
         # Create frames directory
         os.makedirs(FRAMES)
@@ -68,8 +73,8 @@ if(video is not None):
     images_array = create_frames()
 
     # Continue only if frames have been successfully created 
-    # if len(images_array) > 0:
-    #     frame_paths = glob(f"frames/*.jpeg")
-    #     for path in frame_paths:
-    #         st.image(load_image(path), width=250)
-st.write('R204452G Tungamiraishe Mukwena')
+    if len(images_array) > 0:
+        frame_paths = glob(f"frames/*.jpeg")
+        for path in frame_paths:
+            st.image(load_image(path), width=250)
+
