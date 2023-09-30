@@ -119,10 +119,8 @@ if(video is not None):
 
         # imageFeatures = IMAGEFEATUREEXTRACTOR.predict(preprocessedImage, verbose=0)
         image = Image.open(image)
-        pixel_values   = IMAGEFEATUREEXTRACTOR(image, return_tensors ="pt").pixel_values
-	pixel_values = tf.convert_to_tensor(pixel_values, dtype=tf.float32)
-	    
-         # MAX_LEN PUT A RANDOM NUMBER I.E 10
+        pixel_values = IMAGEFEATUREEXTRACTOR(image, return_tensors ="pt").pixel_values
+	pixel_values = tf.convert_to_tensor(pixel_values, dtype=tf.float32)   
         for i in range(max_length):
             sequence = TOKENIZER.texts_to_sequences(["startseq"])[0]
             sequence = tf.keras.preprocessing.sequence.pad_sequences([sequence], max_length)
