@@ -134,8 +134,8 @@ if(video is not None):
 
         return in_text, preprocessedImage
 
-	if len(images_array) > 0:
-		frame_paths = glob(f"frames/*.jpeg")
-		for path in frame_paths:
-			caption = predict_caption(path)
-			st.image(load_image(path), caption=caption, width=250)
+    if len(images_array) > 0:
+        frame_paths = glob(f"frames/*.jpeg")
+	for path in frame_paths:
+		caption = predict_caption(path)
+		st.image(load_image(path), caption=caption, width=250)
