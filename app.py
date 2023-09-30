@@ -7,6 +7,8 @@ import os
 import cv2,imutils
 import tensorflow as tf
 
+from transformers import ViTImageProcessor
+
 import pickle
 
 st.write('R204452G Tungamiraishe Mukwena')
@@ -20,7 +22,8 @@ with open('tokenizer.pickle','rb') as tokenizer_file:
 CAPTIONMODEL =  tf.keras.models.load_model('caption_model.h5')
 # Feature extractor
 # TODO : Load the feature_extractor.h5 in this directory
-IMAGEFEATUREEXTRACTOR = tf.keras.models.load_model('feature_extractor.h5')
+# IMAGEFEATUREEXTRACTOR = tf.keras.models.load_model('feature_extractor.h5')
+IMAGEFEATUREEXTRACTOR = ViTImageProcessor.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
 
 # Frames path
 FRAMES = join(dirname(realpath(__file__)), "frames")
@@ -111,15 +114,18 @@ if(video is not None):
     #     img = np.expand_dims(img,axis=0)
 
     def predict_caption(image, max_length=10):
-        preprocessedImage = load_image(image)
+        # preprocessedImage = load_image(image)
 
-        imageFeatures = IMAGEFEATUREEXTRACTOR.predict(preprocessedImage, verbose=0)
+        # imageFeatures = IMAGEFEATUREEXTRACTOR.predict(preprocessedImage, verbose=0)
+	image = Image.open(image)
+        pixel_values   = IMAGEFEATUREEXTRACTOR(image, return_tensors ="pt").pixel_values
+	    
          # MAX_LEN PUT A RANDOM NUMBER I.E 10
         for i in range(max_length):
             sequence = TOKENIZER.texts_to_sequences(["startseq"])[0]
             sequence = tf.keras.preprocessing.sequence.pad_sequencesences([sequence], max_length)
 
-            y_pred = CAPTIONMODEL.predict([imageFeatures, sequence])
+            y_pred = CAPTIONMODEL.predict([pixel_values, sequence])
             y_pred = np.argmax(y_pred)
 
             word = idx_to_word(y_pred, TOKENIZER)
