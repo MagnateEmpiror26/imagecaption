@@ -114,10 +114,6 @@ if(video is not None):
     #     img = np.expand_dims(img,axis=0)
 
     def predict_caption(image, max_length=10):
-        
-        # preprocessedImage = load_image(image)
-
-        # imageFeatures = IMAGEFEATUREEXTRACTOR.predict(preprocessedImage, verbose=0)
         image = Image.open(image)
         pixel_values = IMAGEFEATUREEXTRACTOR(image, return_tensors ="pt").pixel_values
 	pixel_values = tf.convert_to_tensor(pixel_values, dtype=tf.float32)   
