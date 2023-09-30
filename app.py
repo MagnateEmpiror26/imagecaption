@@ -124,7 +124,7 @@ if(video is not None):
          # MAX_LEN PUT A RANDOM NUMBER I.E 10
         for i in range(max_length):
             sequence = TOKENIZER.texts_to_sequences(["startseq"])[0]
-            sequence = tf.keras.preprocessing.sequence.pad_sequencesences([sequence], max_length)
+            sequence = tf.keras.preprocessing.sequence.pad_sequences([sequence], max_length)
 
             y_pred = CAPTIONMODEL.predict([pixel_values, sequence])
             y_pred = np.argmax(y_pred)
