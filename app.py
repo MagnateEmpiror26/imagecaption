@@ -96,10 +96,10 @@ if(video is not None):
     images_array = create_frames()
 
     # Continue only if frames have been successfully created 
-    if len(images_array) > 0:
-        frame_paths = glob(f"frames/*.jpeg")
-        for path in frame_paths:
-            st.image(load_image(path), width=250)
+    # if len(images_array) > 0:
+    #     frame_paths = glob(f"frames/*.jpeg")
+    #     for path in frame_paths:
+    #         st.image(load_image(path), width=250)
 
     def idx_to_word(integer,tokenizer):
         for word, index in tokenizer.word_index.items():
