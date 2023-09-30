@@ -114,11 +114,12 @@ if(video is not None):
     #     img = np.expand_dims(img,axis=0)
 
     def predict_caption(image, max_length=10):
+        
         # preprocessedImage = load_image(image)
 
         # imageFeatures = IMAGEFEATUREEXTRACTOR.predict(preprocessedImage, verbose=0)
-       image = Image.open(image)
-       pixel_values   = IMAGEFEATUREEXTRACTOR(image, return_tensors ="pt").pixel_values
+        image = Image.open(image)
+        pixel_values   = IMAGEFEATUREEXTRACTOR(image, return_tensors ="pt").pixel_values
 	    
          # MAX_LEN PUT A RANDOM NUMBER I.E 10
         for i in range(max_length):
