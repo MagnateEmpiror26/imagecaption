@@ -120,6 +120,7 @@ if(video is not None):
         # imageFeatures = IMAGEFEATUREEXTRACTOR.predict(preprocessedImage, verbose=0)
         image = Image.open(image)
         pixel_values   = IMAGEFEATUREEXTRACTOR(image, return_tensors ="pt").pixel_values
+	pixel_values = tf.convert_to_tensor(pixel_values, dtype=tf.float32)
 	    
          # MAX_LEN PUT A RANDOM NUMBER I.E 10
         for i in range(max_length):
