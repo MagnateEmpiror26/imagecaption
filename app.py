@@ -20,7 +20,7 @@ with open('tokenizer.pickle','rb') as tokenizer_file:
 CAPTIONMODEL =  tf.keras.models.load_model('caption_model.h5')
 # Feature extractor
 # TODO : Load the feature_extractor.h5 in this directory
-IMAGEFEATUREEXTRACTOR = tf.keras.model.load('feature_extractor.h5')
+IMAGEFEATUREEXTRACTOR = tf.keras.model.load_model('feature_extractor.h5')
 
 # Frames path
 FRAMES = join(dirname(realpath(__file__)), "frames")
