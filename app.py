@@ -92,14 +92,7 @@ if(video is not None):
             index += 1
         return np.array(images_array)
 
-    # Invoke Function to create frames
     images_array = create_frames()
-
-    # Continue only if frames have been successfully created 
-    # if len(images_array) > 0:
-    #     frame_paths = glob(f"frames/*.jpeg")
-    #     for path in frame_paths:
-    #         st.image(load_image(path), width=250)
 
     def idx_to_word(integer,tokenizer):
         for word, index in tokenizer.word_index.items():
@@ -107,37 +100,42 @@ if(video is not None):
                 return word
         return None
 
-    # preprocess_image(image_path):
-    #     img = load_img(os.path.join(image_path,image),target_size=(224,224))
-    #     img = img_to_array(img)
-    #     img = img/255.
-    #     img = np.expand_dims(img,axis=0)
+    def predict_caption(image_path, max_length=10):
+        model = tf.keras.applications.DenseNet201()
+        fe = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
 
-    def predict_caption(image, max_length=10):
-        image = Image.open(image)
-        pixel_values = IMAGEFEATUREEXTRACTOR(image, return_tensors ="pt").pixel_values
-        pixel_values = tf.convert_to_tensor(pixel_values, dtype=tf.float32)
-        pixel_values = pixel_values.numpy()
-        pixel_values = pixel_values.reshape(1,1920)
+        img_size = 224
+        features = {}
+
+        img = tf.keras.preprocessing.image.load_img(image_path,target_size=(img_size,img_size))
+        img = tf.keras.preprocessing.image.img_to_array(img)
+        img = img/255.
+        img = np.expand_dims(img,axis=0)
+        feature = fe.predict(img, verbose=0)
+        features[image] = feature
+
+        
+        feature = features[image]
+        in_text = "startseq"
 
         for i in range(max_length):
-            sequence = TOKENIZER.texts_to_sequences(["startseq"])[0]
+            sequence = TOKENIZER.texts_to_sequences([in_text])[0]
             sequence = tf.keras.preprocessing.sequence.pad_sequences([sequence], max_length)
 
-            y_pred = CAPTIONMODEL.predict([pixel_values, sequence])
+            y_pred = CAPTIONMODEL.predict([feature,sequence])
             y_pred = np.argmax(y_pred)
-
+            
             word = idx_to_word(y_pred, TOKENIZER)
-
+            
             if word is None:
                 break
-
+                
             in_text+= " " + word
-
+            
             if word == 'endseq':
                 break
-
-        return in_text, preprocessedImage
+                
+        return in_text
 
     if len(images_array) > 0:
         frame_paths = glob(f"frames/*.jpeg")
