@@ -115,7 +115,7 @@ if(video is not None):
         features[image_path] = feature
 
         
-        feature = features[image]
+        feature = features[image_path]
         in_text = "startseq"
 
         for i in range(max_length):
