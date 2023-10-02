@@ -112,7 +112,7 @@ if(video is not None):
         img = img/255.
         img = np.expand_dims(img,axis=0)
         feature = fe.predict(img, verbose=0)
-        features[image] = feature
+        features[image_path] = feature
 
         
         feature = features[image]
