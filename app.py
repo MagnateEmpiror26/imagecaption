@@ -100,7 +100,7 @@ if(video is not None):
                 return word
         return None
 
-    def predict_caption(image_path, max_length=10):
+    def predict_caption(image_path, max_length=34):
         model = tf.keras.applications.DenseNet201()
         fe = tf.keras.models.Model(inputs=model.input, outputs=model.layers[-2].output)
 
