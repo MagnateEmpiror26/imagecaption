@@ -117,7 +117,7 @@ if(video is not None):
         image = Image.open(image)
         pixel_values = IMAGEFEATUREEXTRACTOR(image, return_tensors ="pt").pixel_values
         pixel_values = tf.convert_to_tensor(pixel_values, dtype=tf.float32)
-	pixel_values = pixel_values.reshape(1,1920)
+        pixel_values = pixel_values.reshape(1,1920)
 
         for i in range(max_length):
             sequence = TOKENIZER.texts_to_sequences(["startseq"])[0]
